@@ -5,7 +5,8 @@ block content
   p Welcome to #{title}
   
   #databases
-    - each database in databases
-      div.database
-        div.name= database.name
-    a(href='/collections/choose_database')!= Add new Database
+    if databases_count > 0
+      - each database in databases
+        div.database
+          div.name= database.name
+  a(href='/collections/choose_database') Add new Database
