@@ -3,9 +3,9 @@ exports.list = function(db) {
   return function(req, res) {
     var collection = db.collection('databases');
     var ObjectID = require('mongodb').ObjectID;
-    collection.find({ _id: new ObjectID(req.params.database_id) }, function (err, post) {
 
-console.log(post.name);
+    collection.find({ _id: new ObjectID(req.params.database_id) }).toArray(function(err, docs) {
+      var post = docs[0];
       var connection = require('mongoskin').db("mongodb://localhost/"+post.name, { native_parser:true });
       connection.collectionNames(function(err, collections){
         console.log(collections);
