@@ -8,5 +8,8 @@ block content
     if databases_count > 0
       - each database in databases
         div.database
+          div.object_id= database._id
           div.name= database.name
+          div.list_collections
+            a(href='/collections/'+database._id) List Collections
   a(href='/collections/choose_database') Add new Database

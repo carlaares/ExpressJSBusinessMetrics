@@ -29,7 +29,7 @@ app.use(app.router);
 
 app.get('/', routes.index(db));
 //app.get('/users', users.list);
-app.get('/collections', collections.list(db));
+app.get('/collections/:database_id', collections.list(db));
 app.get('/collections/choose_database', collections.choose_database(db));
 //save new database name
 app.post('/collections/choose_database', collections.add_database(db));

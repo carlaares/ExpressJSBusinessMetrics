@@ -1,12 +1,17 @@
 /* GET collections listing. */
 exports.list = function(db) {
   return function(req, res) {
-    // var db = mongo.db("mongodb://localhost/business-metrics", {native_parser:true});
+    var collection = db.collection('databases');
+    var ObjectID = require('mongodb').ObjectID;
+    collection.find({ _id: new ObjectID(req.params.database_id) }, function (err, post) {
 
-    db.collectionNames(function(err, collections){
-      console.log(collections);
+console.log(post.name);
+      var connection = require('mongoskin').db("mongodb://localhost/"+post.name, { native_parser:true });
+      connection.collectionNames(function(err, collections){
+        console.log(collections);
+        return res.render('collections', { title: 'Collections on '+post.name, collections: collections });
+      });
     });
-    res.json('a');
   }
 };
 
@@ -19,11 +24,12 @@ exports.choose_database = function(db) {
 };
 
 exports.add_database = function(db) {
-  function(req, res){
+  return function(req, res) {
     var collection = db.collection('databases');
-    collection.insert(
-      { name: req.param('name')}, 
-      function(err, result) { 
+    var dbname = req.param('name');
+    collection.insert({ name: dbname }, 
+      function(err, result) {
+        console.log(err); 
         res.redirect('/');  
       }
     );

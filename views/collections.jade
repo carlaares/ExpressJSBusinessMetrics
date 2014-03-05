@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+  
+  #collections
+    - each collection in collections
+      div.database
+        div.object_id= collection._id
+        div.name= collection.name
+
