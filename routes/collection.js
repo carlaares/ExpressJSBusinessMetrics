@@ -1,8 +1,6 @@
 /* GET collections listing. */
 exports.list = function(db) {
   return function(req, res) {
-    // var db = mongo.db("mongodb://localhost/business-metrics", {native_parser:true});
-
     db.collectionNames(function(err, collections){
       console.log(collections);
     });
@@ -19,11 +17,12 @@ exports.choose_database = function(db) {
 };
 
 exports.add_database = function(db) {
-  function(req, res){
+  return function(req, res) {
     var collection = db.collection('databases');
-    collection.insert(
-      { name: req.param('name')}, 
-      function(err, result) { 
+    var dbname = req.param('name');
+    collection.insert({ name: dbname }, 
+      function(err, result) {
+        console.log(err); 
         res.redirect('/');  
       }
     );
