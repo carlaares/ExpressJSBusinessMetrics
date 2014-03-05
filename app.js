@@ -33,7 +33,7 @@ app.get('/collections/:database_id', collections.list(db));
 app.get('/collections/choose_database', collections.choose_database(db));
 //save new database name
 app.post('/collections/choose_database', collections.add_database(db));
-
+app.get('/graph/:database_name/:collection_name', collections.show_graph);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

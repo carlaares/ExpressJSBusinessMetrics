@@ -3,9 +3,11 @@ extends layout
 block content
   h1= title
   
-  #collections
+  table.table#collections
     - each collection in collections
-      div.database
-        div.object_id= collection._id
-        div.name= collection.name
+      if collection.collectionName.indexOf('production') != -1
+        tr.database
+          td.name= collection.collectionName
+          td.link
+            a(href='/graph/'+database_name+'/'+collection.collectionName) Graph
 
