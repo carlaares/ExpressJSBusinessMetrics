@@ -17,3 +17,15 @@ exports.choose_database = function(db) {
     });
   }
 };
+
+exports.add_database = function(db) {
+  function(req, res){
+    var collection = db.collection('databases');
+    collection.insert(
+      { name: req.param('name')}, 
+      function(err, result) { 
+        res.redirect('/');  
+      }
+    );
+  }
+};
