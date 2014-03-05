@@ -3,4 +3,9 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
-  a(href='/collections/choose_database') Choose Database
+  
+  #databases
+    - each database in databases
+      div.database
+        div.name= database.name
+    a(href='/collections/choose_database')!= Add new Database

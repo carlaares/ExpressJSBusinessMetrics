@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  div.newdatabase
+    form( method="post")
+      div
+        div
+          span.label Name :
+          input(type="text", name="name", id="editDatabaseName")
+        div#editDatabaseSubmit
+          input(type="submit", value="Save")
+  a(href="/")!= "Back to Home"
