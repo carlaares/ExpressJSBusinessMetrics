@@ -1,8 +1,14 @@
 /* GET collections listing. */
 exports.show_graph = function (req, res) {
   var connection = require('mongoskin').db("mongodb://localhost/"+req.params.database_name, { native_parser:true });
-  connection.collection(req.params.collection_name).find().toArray(function(err, values) {
-    return res.render('graph', { title: 'Graphics for '+req.params.database_name+' .'+req.params.collection_name, values: values });
+  var today = new Date();
+  var today_unix = (new Date(today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate()+' 00:00:00')).getTime()/1000;
+  connection.collection(req.params.collection_name).find( { time: { $gte: today_unix }}).toArray(function(err, values) {
+    var graph_values = [];
+    for(var x in values) {
+      graph_values[x] = { x: values[x].time, y: values[x].count };
+    }
+    return res.render('graph', { title: 'Graphics for '+req.params.database_name+' .'+req.params.collection_name, values: graph_values });
   });
 };
 
