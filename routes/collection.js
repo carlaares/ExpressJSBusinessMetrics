@@ -27,27 +27,29 @@ exports.show_graph = function (req, res) {
     for(var x in values) {
       graph_values[x] = { x: values[x].time, y: values[x].count };
     }
-  });
+ 
+    var start_week_unix = getUnixTime(getLastWeek());
+    connection.collection(req.params.collection_name).find( { time: { $gte: start_week_unix }}).toArray(function(err, values) {
+      for(var x in values) {
+        week_graph_values[x] = { x: values[x].time, y: values[x].count };
+      }
 
-  var start_week_unix = getUnixTime(getLastWeek());
-  connection.collection(req.params.collection_name).find( { time: { $gte: start_week_unix }}).toArray(function(err, values) {
-    for(var x in values) {
-      week_graph_values[x] = { x: values[x].time, y: values[x].count };
-    }
-  });
+      var start_month_unix = getUnixTime(getLastMonth());
+      connection.collection(req.params.collection_name).find( { time: { $gte: start_month_unix }}).toArray(function(err, values) {
+        for(var x in values) {
+          month_graph_values[x] = { x: values[x].time, y: values[x].count };
+        }
+      });
 
-  var start_month_unix = getUnixTime(getLastMonth());
-  connection.collection(req.params.collection_name).find( { time: { $gte: start_month_unix }}).toArray(function(err, values) {
-    for(var x in values) {
-      month_graph_values[x] = { x: values[x].time, y: values[x].count };
-    }
-  });
+      return res.render('graph', { 
+        title: 'Graphics for '+req.params.database_name+' .'+req.params.collection_name,
+        values: graph_values,
+        week_values: week_graph_values, 
+        month_values: month_graph_values
+      });
 
-  return res.render('graph', { 
-    title: 'Graphics for '+req.params.database_name+' .'+req.params.collection_name,
-    values: graph_values,
-    week_values: week_graph_values, 
-    month_values: month_graph_values
+    });
+
   });
 
 };
