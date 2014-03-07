@@ -1,4 +1,20 @@
 /* GET collections listing. */
+function getLastWeek(){
+  var today = new Date();
+  var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+  return lastWeek ;
+}
+
+function getLastMonth(){
+  var today = new Date();
+  var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 31);
+  return lastWeek ;
+}
+
+function getUnixTime(today){
+  return  (new Date(today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate()+' 00:00:00')).getTime()/1000;
+}
+
 exports.show_graph = function (req, res) {
   var connection = require('mongoskin').db("mongodb://localhost/"+req.params.database_name, { native_parser:true });
   var today = new Date();
@@ -28,7 +44,7 @@ exports.show_graph = function (req, res) {
   });
 
   return res.render('graph', { 
-    title: 'Graphics for '+req.params.database_name+' .'+req.params.collection_name, 
+    title: 'Graphics for '+req.params.database_name+' .'+req.params.collection_name,
     values: graph_values,
     week_values: week_graph_values, 
     month_values: month_graph_values

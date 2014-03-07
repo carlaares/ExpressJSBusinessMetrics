@@ -1,4 +1,4 @@
-function show_graphs(values, prefix) {
+function show_graphs(data, prefix) {
   if (data.length == 0) {
     document.getElementById(prefix+'y_axis');
   } else {
@@ -22,18 +22,3 @@ function show_graphs(values, prefix) {
   }
 }
 
-function getLastWeek(){
-  var today = new Date();
-  var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
-  return lastWeek ;
-}
-
-function getLastMonth(){
-  var today = new Date();
-  var lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 31);
-  return lastWeek ;
-}
-
-function getUnixTime(today){
-  return  (new Date(today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate()+' 00:00:00')).getTime()/1000;
-}
