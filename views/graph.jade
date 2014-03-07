@@ -3,30 +3,22 @@ extends layout
 block content
   h1= title
 
-  div#chart_container
-    div#y_axis
-    div#chart
+  div#today_chart_container
+    div#today_y_axis
+    div#today_chart
+
+  div#week_chart_container
+    div#week_y_axis
+    div#week_chart
+
+  div#month_chart_container
+    div#month_y_axis
+    div#month_chart
 
   script(type='text/javascript').
-    var data =!{JSON.stringify(values)};
-    if (data.length == 0) {
-      alert('NO hay resultados');
-    } else {
-      var graph = new Rickshaw.Graph( {
-          element: document.querySelector("#chart"),
-          width: 580,
-          height: 250,
-          series: [ {
-                color: 'steelblue',
-                data: data
-          } ]
-      } );
-      var axes = new Rickshaw.Graph.Axis.Time( { graph: graph } );
-      var y_axis = new Rickshaw.Graph.Axis.Y( {
-          graph: graph,
-          orientation: 'left',
-          tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
-          element: document.getElementById('y_axis'),
-      } );
-      graph.render();
-    }
+    var today_data =!{JSON.stringify(values)};
+    var week_data =!{JSON.stringify(week_values)};
+    var month_data =!{JSON.stringify(month_values)};
+    show_graphs(today_data, 'today_');
+    show_graphs(week_data, 'week_');
+    show_graphs(month_data, 'month_');
